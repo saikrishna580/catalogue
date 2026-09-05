@@ -36,12 +36,12 @@ pipeline {
             steps {
                 script {
                     sh """
-                        npm install
+                        docker build -t catalogue:${appVersion} .
                     """
                 } 
             }
         }
-        stage('Test') {
+        stage('Docker Build') {
             steps {
                 script {
                     sh """
