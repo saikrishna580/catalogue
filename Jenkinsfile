@@ -43,7 +43,6 @@ pipeline {
             }
         }
         stage('Docker Build') {
-            stage('Docker Build') {
             steps {
                 script {
                     // in this block we get aws authentication
@@ -77,8 +76,7 @@ pipeline {
                 }
             }
         }
-    }
-
+    
         post { 
             always { 
                 echo 'I will always say Hello again!'
