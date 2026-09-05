@@ -20,19 +20,14 @@ pipeline {
     } */
     // Build
     stages {
-        stage('Build') {
-            steps {
+        stage('Read version'){
+            steps{
                 script {
-                    sh """
-                        echo "Building"
-                        echo "Course is: ${COURSE}"
-                        echo "Hello ${params.PERSON}"
-                        echo "Biography: ${params.BIOGRAPHY}"
-                        echo "Toggle: ${params.TOGGLE}"
-                        echo "Choice: ${params.CHOICE}"
-                        echo "Password: ${params.PASSWORD}"
-                    """
-                } 
+                    def packageJson = readJSON file: 'package.json'
+                    // Extract the version property
+                    appVersion = packageJson.version
+                    echo "The application version is: ${appVersion}"
+                }
             }
         }
         stage('Test') {
