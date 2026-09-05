@@ -4,9 +4,11 @@ pipeline {
             label 'ROBOSHOP' 
         } 
     }
-   /*  environment {
-        COURSE = "Jenkins"
-    } */
+    environment {
+        def appVersion = ""
+        project = "roboshop"
+        component = "catalogue"
+    }
     options {
         disableConcurrentBuilds()
         timeout(time: 15, unit: 'MINUTES')
@@ -28,6 +30,15 @@ pipeline {
                     appVersion = packageJson.version
                     echo "The application version is: ${appVersion}"
                 }
+            }
+        }
+        stage('Install Dependencies') {
+            steps {
+                script {
+                    sh """
+                        npm install
+                    """
+                } 
             }
         }
         stage('Test') {
