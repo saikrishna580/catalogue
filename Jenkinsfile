@@ -6,6 +6,7 @@ pipeline {
     }
     environment {
         def appVersion = ""
+        acc_id = "108722978854"
         project = "roboshop"
         component = "catalogue"
     }
@@ -42,11 +43,16 @@ pipeline {
             }
         }
         stage('Docker Build') {
+            stage('Docker Build') {
             steps {
                 script {
-                    sh """
-                        echo "Testing"
-                    """
+                    // in this block we get aws authentication
+                    withAWS(credentials: 'aws-creds', region: 'us-east-1') {
+                        sh """
+                            aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${acc_id}.dkr.ecr.us-east-1.amazonaws.com
+                            docker build -t ${acc_id}.dkr.ecr.us-east-1.amazonaws.com/${project}/${component}:${appVersion} .
+                        """
+                    }
                 }
             }
         }
